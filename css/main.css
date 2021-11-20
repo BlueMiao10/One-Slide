@@ -1,0 +1,308 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.clearfix::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+h5 {
+  font-size: 20px;
+}
+
+button {
+  background-color: rgb(88, 88, 88);
+  padding: 10px 10px;
+  color: rgb(201, 197, 197, 0.5);
+  border: none;
+  outline: none;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+button:hover {
+  color: #fff;
+}
+
+.reveal.right section {
+  text-align: right;
+}
+
+.reveal.left section {
+  text-align: left;
+}
+
+.reveal.top section {
+  text-align: top;
+}
+
+.reveal.left-top section {
+  text-align: left;
+}
+
+.reveal.right-top section {
+  text-align: right;
+}
+
+/*control的样式*/
+.control {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  height: 100px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.control:hover {
+  opacity: 1;
+}
+
+/*设置的图标样式*/
+.control .iconfont {
+  display: block;
+  font-size: 30px;
+  color: #fff;
+  margin: 16px;
+  cursor: pointer;
+}
+
+/*菜单menu的样式*/
+.menu {
+  position: fixed;
+  left: 0;
+  z-index: 100;
+  width: 200px;
+  height: 100vh;
+  background-color: rgb(44, 43, 43);
+  color: #747c7c;
+  font-size: 13px;
+  transform: translateX(-120%);
+  transition: transform 0.3s;
+}
+
+.menu.open {
+  transform: translateX(0);
+}
+
+.menu .icon-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.menu .icon-close:hover {
+  color: #fff;
+}
+
+.menu .detail {
+  padding-top: 82px;
+}
+
+.menu .detail .tab {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.detail .tab .iconfont {
+  margin: 3px;
+}
+
+.menu .download {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  color: black;
+  margin-left: 40px;
+  padding: 20px;
+  transition: 0.3s;
+}
+
+.menu .download:hover {
+  transform: scale(0.8);
+}
+
+.menu .detail .tab.active {
+  color: #fff;
+  background-color: rgb(54, 54, 54);
+  transform: scale(1.1);
+}
+
+.menu .content {
+  position: absolute;
+  top: 0;
+  left: 200px;
+  width: calc(100vw - 200px);
+  height: 100%;
+  background-color: rgb(54, 54, 54);
+  font-size: 14px;
+  /*这里之所以移动这么多距离是因为，我们前边的宽度为窗口宽度减去菜单栏的宽度，那么这里只移动自身的100%的话，距离就短了*/
+  transform: translateX(calc(100% + 400px));
+  transition: transform 0.3s;
+  z-index: 0;
+  overflow: auto;
+}
+
+.menu.open .detail .content.active {
+  transform: translateX(0);
+}
+
+.menu.open .detail .content.appear {
+  z-index: 1;
+}
+
+.menu .content .header {
+  font-size: 40px;
+  padding: 20px;
+  margin: 0 10px;
+  border-bottom: 2px solid rgb(165, 164, 164);
+  color: #fff;
+}
+
+.menu .content .body {
+  padding: 20px;
+}
+
+.menu .content textarea {
+  width: 100%;
+  height: 400px;
+  padding: 10px;
+  background-color: rgb(88, 88, 88);
+  color: rgb(255, 255, 255);
+  border: none;
+  outline: none;
+  resize: none;
+  overflow: auto;
+}
+
+.menu .content button {
+  margin-top: 20px;
+}
+
+.menu .themes {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding-bottom: 30px;
+  border-bottom: 2px solid rgb(165, 164, 164);
+}
+
+.menu .themes figure {
+  position: relative;
+  text-align: center;
+  margin-top: 30px;
+  margin-left: 45px;
+  opacity: 0.6;
+  padding-bottom: 1px;
+  border: 4px solid transparent;
+  transition: all 0.2s;
+}
+
+.menu .themes figure.select {
+  cursor: pointer;
+  color: #fff;
+  opacity: 1;
+}
+
+.menu .themes figure .icon-select {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  color: orange;
+  display: none;
+}
+
+.menu .themes figure .icon-select.select {
+  display: inline-block;
+}
+
+.menu .themes figure:hover {
+  transform: scale(1.2);
+  cursor: pointer;
+  opacity: 1;
+  color: #fff;
+}
+
+.menu .themes figure img {
+  width: 250px;
+  height: 150px;
+}
+
+.menu .themes figcaption {
+  margin-top: 10px;
+}
+
+.transition {
+  border-bottom: 2px solid rgb(165, 164, 164);
+  padding-bottom: 30px;
+}
+
+.switch {
+  display: inline-block;
+  margin-top: 20px;
+  margin-left: 10px;
+  padding: 10px;
+  text-align: center;
+  width: 150px;
+  transition: transform 0.3s;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.switch span {
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.transition .iconfont {
+  font-size: 80px;
+  color: rgba(135, 206, 235);
+  opacity: 0.6;
+}
+
+.switch::after {
+  content: "";
+}
+
+.transition h5 {
+  margin-top: 30px;
+}
+
+.switch:hover {
+  background-color: rgba(177, 175, 173, 0.6);
+  color: #fff;
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.switch:hover .iconfont {
+  opacity: 1;
+}
+
+.switch.effect {
+  background-color: rgba(177, 175, 173, 0.6);
+  color: #fff;
+}
+
+.align-setting {
+  margin-top: 30px;
+}
+
+.align-setting .iconfont {
+  font-size: 80px;
+  color: rgba(135, 206, 235);
+  opacity: 0.6;
+}
