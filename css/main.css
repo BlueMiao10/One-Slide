@@ -142,7 +142,7 @@ button:hover {
     transform: scale(1.1);
 }
 
-.aaa {
+.body.editor .aaa {
     color: red;
 }
 
