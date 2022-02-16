@@ -109,6 +109,60 @@ const Menu = {
   }
 }
 
+const ImgUploader = {
+  init() {
+    this.$fileInput = $('#markdown-editor')
+    this.$textarea = $('.editor textarea')
+
+    AV.init({
+      appId: "UqBaAsQMqOQB3rLwNGLTKtOF-gzGzoHsz",
+      appKey: "uv9EyQmkgX7UjUt4TeVUBhVa",
+      serverURLs: "https://uqbaasqm.lc-cn-n1-shared.com"
+    })
+    this.bind()
+    this.insertText()
+  },
+
+  bind() {
+    let self = this
+    this.$fileInput.onchange = function () {
+      if (this.files.length > 0) {
+        let localFile = this.files[0]
+        console.log(localFile)
+        if (localFile.size / 1048576 > 2) {
+          alert('文件不能超过2M')
+          return
+        }
+        self.insertText(`![上传中，进度0%]()`)
+        let avFile = new AV.File(encodeURI(localFile.name), localFile)
+        avFile.save({
+          keepFileName: true,
+          onprogress(progress) {
+            self.insertText(`![上传中，进度${progress.percent}%]()`)
+          }
+        }).then(file => {
+          console.log('文件保存完成')
+          let text = `![${file.attributes.name}](${file.attributes.url}?imageView2/0/w/800/h/600)`
+          self.insertText(text)
+        }).catch(err => console.log(err))
+      }
+    }
+  },
+
+  insertText(text = '') {
+    let $textarea = this.$textarea
+    let start = $textarea.selectionStart
+    let end = $textarea.selectionEnd
+    let oldText = $textarea.value
+
+    $textarea.value = `${oldText.substring(0, start)}${text} ${oldText.substring(end)}`
+    $textarea.focus()
+    $textarea.setSelectionRange(start, start + text.length)
+
+  }
+}
+
+
 //
 const Editor = {
   init() {
@@ -144,12 +198,20 @@ const Editor = {
 
       // More info https://github.com/hakimel/reveal.js#dependencies
       dependencies: [
-        { src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
-        { src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
-        { src: 'plugin/highlight/highlight.js' },
-        { src: 'plugin/search/search.js', async: true },
-        { src: 'plugin/zoom-js/zoom.js', async: true },
-        { src: 'plugin/notes/notes.js', async: true }
+        {
+          src: 'plugin/markdown/marked.js', condition: function () {
+            return !!document.querySelector('[data-markdown]');
+          }
+        },
+        {
+          src: 'plugin/markdown/markdown.js', condition: function () {
+            return !!document.querySelector('[data-markdown]');
+          }
+        },
+        {src: 'plugin/highlight/highlight.js'},
+        {src: 'plugin/search/search.js', async: true},
+        {src: 'plugin/zoom-js/zoom.js', async: true},
+        {src: 'plugin/notes/notes.js', async: true}
       ]
     })
   }
@@ -251,9 +313,12 @@ const Print = {
     this.$download.addEventListener('click', () => {
       let $link = document.createElement('a')
       $link.setAttribute('target', '_blank')
-      $link.setAttribute('href', location.href.replace(/#\/+/, '?print-pdf'))
+      $link.setAttribute('href', location.href.replace(/#\/.*/, '?print-pdf'))
       $link.click()
     })
+    window.onafterprint = () => {
+      window.close()
+    }
   },
 
   start() {
@@ -269,7 +334,6 @@ const Print = {
     }
     document.head.appendChild(link)
   }
-
 }
 
 //代表你当前整个页面，全局的模块
@@ -281,7 +345,7 @@ const App = {
 }
 
 //调用init，页面就启动并且初始化了，把它当成你所有功能的一个总入口
-App.init(Menu, Editor, Theme, Print)
+App.init(Menu, Editor, Theme, Print, ImgUploader)
 
 
 
